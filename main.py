@@ -46,16 +46,30 @@ def git_commit_and_push(commit_message: str) -> bool:
     try:
         # Add all changes
         subprocess.run(["git", "add", "."], check=True, capture_output=True, text=True)
-        
-        # Commit with the provided message
-        subprocess.run(["git", "commit", "-m", commit_message], check=True, capture_output=True, text=True)
-        
+
+        # Commit with the provided message. When there are no changes to commit,
+        # Git exits with status 1 and prints "nothing to commit". That should not
+        # be treated as a hard failure, so we handle that case manually.
+        commit = subprocess.run(
+            ["git", "commit", "-m", commit_message],
+            capture_output=True,
+            text=True,
+        )
+        commit_output = (commit.stdout or "") + (commit.stderr or "")
+        if commit.returncode != 0 and "nothing to commit" not in commit_output.lower():
+            raise subprocess.CalledProcessError(
+                commit.returncode,
+                commit.args,
+                output=commit.stdout,
+                stderr=commit.stderr,
+            )
+
         # Push to origin
         subprocess.run(["git", "push"], check=True, capture_output=True, text=True)
-        
+
         print(f"Successfully committed and pushed with message: '{commit_message}'")
         return True
-        
+
     except subprocess.CalledProcessError as e:
         print(f"Git operation failed: {e}")
         if e.stderr:
