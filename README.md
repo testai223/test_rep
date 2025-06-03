@@ -12,6 +12,15 @@ A simple Python project template that follows best practices and PEP8 guidelines
 - ✅ Ready for testing and linting
 - ✅ **Git commit and push functionality**
 - ✅ **Command-line argument parsing**
+- ✅ **GUI mode with `--gui` option**
+
+### GUI Usage
+
+Launch the graphical interface with:
+
+```bash
+python main.py --gui
+```
 
 ## Project Structure
 
