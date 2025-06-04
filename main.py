@@ -45,6 +45,9 @@ try:
         HISTORICAL_FIGURES = [line.strip() for line in f if line.strip()]
 except FileNotFoundError:
     HISTORICAL_FIGURES = [
+def greet_random_historical_figure() -> str:
+    """Return a greeting for a random historical figure."""
+    figures = [
         "Albert Einstein",
         "Cleopatra",
         "Leonardo da Vinci",
@@ -56,6 +59,8 @@ except FileNotFoundError:
 def greet_random_historical_figure() -> str:
     """Return a greeting for a random historical figure."""
     return greet(random.choice(HISTORICAL_FIGURES))
+=======
+    return greet(random.choice(figures))
 
 
 def git_commit_and_push(commit_message: str) -> bool:

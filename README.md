@@ -13,7 +13,6 @@ A simple Python project template that follows best practices and PEP8 guidelines
 - ✅ **Git commit and push functionality**
 - ✅ **Command-line argument parsing**
 - ✅ **GUI mode with `--gui` option**
-- ✅ **Random historical figure greeting with `--random-historical`**
 - ✅ **Includes a database of 1000 historical personalities**
 
 ### GUI Usage
