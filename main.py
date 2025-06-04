@@ -7,6 +7,7 @@ structure, type hints, docstrings, and PEP8 compliance.
 """
 
 import argparse
+import random
 import subprocess
 import sys
 from typing import Optional
@@ -34,6 +35,18 @@ def greet(name: Optional[str] = None) -> str:
     if name is None:
         return "Hello, World!"
     return f"Hello, {name}!"
+
+
+def greet_random_historical_figure() -> str:
+    """Return a greeting for a random historical figure."""
+    figures = [
+        "Albert Einstein",
+        "Cleopatra",
+        "Leonardo da Vinci",
+        "Mahatma Gandhi",
+        "Marie Curie",
+    ]
+    return greet(random.choice(figures))
 
 
 def git_commit_and_push(commit_message: str) -> bool:
@@ -143,6 +156,11 @@ def parse_arguments() -> argparse.Namespace:
         default=None
     )
     parser.add_argument(
+        "--random-historical",
+        action="store_true",
+        help="Greet a random historical figure"
+    )
+    parser.add_argument(
         "--gui",
         action="store_true",
         help="Run the application in GUI mode"
@@ -170,6 +188,10 @@ def main() -> None:
         success = git_commit_and_push(args.commit)
         if not success:
             sys.exit(1)
+        return
+
+    if args.random_historical:
+        print(greet_random_historical_figure())
     else:
         # Otherwise, run the greeting functionality
         print(greet(args.name))
