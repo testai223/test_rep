@@ -10,6 +10,7 @@ import argparse
 import random
 import subprocess
 import sys
+from pathlib import Path
 from typing import Optional
 
 import tkinter as tk
@@ -37,16 +38,24 @@ def greet(name: Optional[str] = None) -> str:
     return f"Hello, {name}!"
 
 
-def greet_random_historical_figure() -> str:
-    """Return a greeting for a random historical figure."""
-    figures = [
+FIGURES_FILE = Path(__file__).with_name("data") / "historical_figures.txt"
+
+try:
+    with FIGURES_FILE.open("r", encoding="utf-8") as f:
+        HISTORICAL_FIGURES = [line.strip() for line in f if line.strip()]
+except FileNotFoundError:
+    HISTORICAL_FIGURES = [
         "Albert Einstein",
         "Cleopatra",
         "Leonardo da Vinci",
         "Mahatma Gandhi",
         "Marie Curie",
     ]
-    return greet(random.choice(figures))
+
+
+def greet_random_historical_figure() -> str:
+    """Return a greeting for a random historical figure."""
+    return greet(random.choice(HISTORICAL_FIGURES))
 
 
 def git_commit_and_push(commit_message: str) -> bool:

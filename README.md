@@ -14,6 +14,7 @@ A simple Python project template that follows best practices and PEP8 guidelines
 - ✅ **Command-line argument parsing**
 - ✅ **GUI mode with `--gui` option**
 - ✅ **Random historical figure greeting with `--random-historical`**
+- ✅ **Includes a database of 1000 historical personalities**
 
 ### GUI Usage
 
@@ -24,4 +25,10 @@ python main.py --gui
 ```
 
 ## Project Structure
+
+### Historical Figures Database
+
+The `data/historical_figures.txt` file contains 1000 names used when
+invoking `--random-historical`. Feel free to expand or replace this list
+as desired.
 
