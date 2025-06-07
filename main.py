@@ -76,16 +76,11 @@ def load_historical_figures() -> List[str]:
 
 
 HISTORICAL_FIGURES = load_historical_figures()
-        "Mahatma Gandhi",
-        "Marie Curie",
-    ]
 
 
 def greet_random_historical_figure() -> str:
     """Return a greeting for a random historical figure."""
     return greet(random.choice(HISTORICAL_FIGURES))
-=======
-    return greet(random.choice(figures))
 
 
 def git_commit_and_push(commit_message: str) -> bool:
