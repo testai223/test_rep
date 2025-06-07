@@ -10,7 +10,8 @@ import argparse
 import random
 import subprocess
 import sys
-from typing import Optional
+from pathlib import Path
+from typing import Optional, List
 
 import tkinter as tk
 from tkinter import messagebox
@@ -37,15 +38,53 @@ def greet(name: Optional[str] = None) -> str:
     return f"Hello, {name}!"
 
 
-def greet_random_historical_figure() -> str:
-    """Return a greeting for a random historical figure."""
-    figures = [
-        "Albert Einstein",
-        "Cleopatra",
-        "Leonardo da Vinci",
+FIGURES_FILE = Path(__file__).with_name("data") / "historical_figures.txt"
+REMOTE_FIGURES_URL = "https://example.com/historical_figures.txt"
+
+DEFAULT_HISTORICAL_FIGURES = [
+    "Albert Einstein",
+    "Cleopatra",
+    "Leonardo da Vinci",
+    "Mahatma Gandhi",
+    "Marie Curie",
+]
+
+
+def load_historical_figures() -> List[str]:
+    """Load historical figures from file or remote source."""
+    if FIGURES_FILE.exists():
+        try:
+            with FIGURES_FILE.open("r", encoding="utf-8") as f:
+                names = [line.strip() for line in f if line.strip()]
+            if names:
+                return names
+        except OSError as exc:
+            print(f"Failed to read {FIGURES_FILE}: {exc}")
+
+    try:
+        import requests
+
+        response = requests.get(REMOTE_FIGURES_URL, timeout=5)
+        if response.ok:
+            names = [line.strip() for line in response.text.splitlines() if line.strip()]
+            if names:
+                return names
+    except Exception as exc:  # pragma: no cover - network may fail
+        print(f"Unable to fetch remote historical figures: {exc}")
+
+    return DEFAULT_HISTORICAL_FIGURES
+
+
+HISTORICAL_FIGURES = load_historical_figures()
         "Mahatma Gandhi",
         "Marie Curie",
     ]
+
+
+def greet_random_historical_figure() -> str:
+    """Return a greeting for a random historical figure."""
+    return greet(random.choice(HISTORICAL_FIGURES))
+=======
     return greet(random.choice(figures))
 
 
