@@ -34,3 +34,11 @@ as desired. If the file is missing, the application attempts to download a
 list from `https://example.com/historical_figures.txt` before falling back
 to a small built-in set.
 
+
+### IEEE 9 Bus Example
+
+An example description of the IEEE 9 bus electrical grid is provided in
+`data/ieee9bus.json`. The file now includes electrical parameters for
+lines, generators, and loads. In GUI mode a new button allows loading
+this file and will report how many buses, branches, loads, and generators
+were read.

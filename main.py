@@ -49,6 +49,16 @@ DEFAULT_HISTORICAL_FIGURES = [
     "Marie Curie",
 ]
 
+IEEE9BUS_FILE = Path(__file__).with_name("data") / "ieee9bus.json"
+
+
+def load_ieee9bus() -> dict:
+    """Load the IEEE 9 bus grid example from disk."""
+    import json
+
+    with IEEE9BUS_FILE.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
 
 def load_historical_figures() -> List[str]:
     """Load historical figures from file or remote source."""
@@ -145,6 +155,22 @@ def run_gui() -> None:
         else:
             messagebox.showerror("Error", "Git operation failed")
 
+    def on_load_ieee9bus() -> None:
+        try:
+            grid = load_ieee9bus()
+        except OSError as exc:
+            messagebox.showerror("Error", f"Failed to read example: {exc}")
+            return
+        buses = len(grid.get("buses", []))
+        branches = len(grid.get("branches", []))
+        loads = len(grid.get("loads", []))
+        generators = len(grid.get("generators", []))
+        messagebox.showinfo(
+            "IEEE 9 Bus Loaded",
+            f"Loaded grid with {buses} buses, {branches} branches, "
+            f"{loads} loads and {generators} generators",
+        )
+
     root = tk.Tk()
     root.title("Hello World GUI")
 
@@ -162,7 +188,11 @@ def run_gui() -> None:
 
     tk.Button(root, text="Commit", command=on_commit).grid(row=1, column=2, padx=5, pady=5)
 
-    tk.Label(root, textvariable=output_var).grid(row=2, column=0, columnspan=3, padx=5, pady=10)
+    tk.Button(root, text="Load IEEE 9 Bus", command=on_load_ieee9bus).grid(
+        row=2, column=0, columnspan=3, padx=5, pady=5
+    )
+
+    tk.Label(root, textvariable=output_var).grid(row=3, column=0, columnspan=3, padx=5, pady=10)
 
     root.mainloop()
 
